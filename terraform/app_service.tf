@@ -18,6 +18,10 @@ resource "azurerm_linux_web_app" "app" {
   location            = azurerm_resource_group.main.location
   service_plan_id     = azurerm_service_plan.app.id
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   https_only = true
 
   ftp_publish_basic_authentication_enabled       = false
