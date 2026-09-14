@@ -29,6 +29,8 @@ resource "azurerm_linux_web_app" "app" {
     application_stack {
       python_version = "3.12"
     }
+
+    app_command_line = "python -m uvicorn app.main:app --host 0.0.0.0 --port 8000"
   }
 
   virtual_network_subnet_id = azurerm_subnet.app_integration.id
