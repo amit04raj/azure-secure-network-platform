@@ -20,8 +20,11 @@ def test_homepage():
     response = client.get("/")
 
     assert response.status_code == 200
-    assert "Azure Secure Network Platform" in response.text
-    assert "secure Azure networking" in response.text
+    assert "Utility Hub" in response.text
+    assert "Calculator" in response.text
+    assert "CIDR Calculator" in response.text
+    assert "Unit Converter" in response.text
+    assert "Quick Notes" in response.text
 
 def test_calculator_addition():
     response = client.post(
