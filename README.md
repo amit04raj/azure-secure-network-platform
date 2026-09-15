@@ -151,23 +151,19 @@ The App Service is configured with:
 - VNet Integration
 - Private Endpoint
 
-The application workload is intentionally simple.
+The application workload is intentionally simple and provides a small set of utility functions.
 
-It currently exposes:
+It provides:
 
-```text
-/
-```
+- A web interface at `/`
+- A calculator API at `POST /api/v1/calculator`
+- A CIDR calculation API at `POST /api/v1/cidr`
+- A unit conversion API at `POST /api/v1/convert`
+- A health endpoint at `/health`
 
-for the web interface and:
+The utility functionality is intentionally kept simple so that the primary focus remains on the Azure networking and security architecture.
 
-```text
-/health
-```
-
-for application health verification.
-
-A previous public storage connectivity test endpoint was intentionally removed as part of the final security hardening. Storage access is now an internal application capability rather than a publicly exposed diagnostic endpoint.
+A previous public storage connectivity test endpoint was intentionally removed as part of the final security hardening. Storage access is not exposed through a public diagnostic endpoint.
 
 ---
 
@@ -269,13 +265,15 @@ This separation reduces unnecessary permission overlap between deployment and ru
 
 ## Application Access
 
-The App Service currently retains its public HTTPS endpoint so that the portfolio application can be directly accessed and its health endpoint can be verified.
+The App Service currently retains its public HTTPS endpoint so that the application can be directly accessed and its functionality can be demonstrated.
+
+The public application surface consists of the Utility Hub web interface, utility APIs, and the health endpoint.
 
 At the same time, the App Service has a Private Endpoint that provides private connectivity from the VNet.
 
 This is an intentional architecture decision for this project.
 
-The project demonstrates how private connectivity can be established without prematurely introducing additional ingress components.
+The project demonstrates that an App Service can have private connectivity established through a Private Endpoint while the public application endpoint remains available for direct demonstration and verification.
 
 A future architecture could disable public App Service access and operate the application as a private-only service when an appropriate private client or private ingress architecture is introduced.
 
@@ -344,7 +342,15 @@ The current test suite verifies:
 - The homepage loads successfully
 - Application metadata matches the project configuration
 
-Local test execution:
+The application also provides the following utility APIs:
+
+- `POST /api/v1/calculator`
+- `POST /api/v1/cidr`
+- `POST /api/v1/convert`
+
+These utility endpoints are part of the application workload and are manually verified during local and deployed application testing.
+
+Local automated test execution:
 
 ```text
 3 passed
@@ -361,6 +367,9 @@ azure-secure-network-platform/
 |
 +-- app/
 |   +-- main.py
+|   +-- calculator.py
+|   +-- cidr.py
+|   +-- converter.py
 |   +-- static/
 |   |   +-- script.js
 |   |   +-- style.css
@@ -476,6 +485,8 @@ No changes. Your infrastructure matches the configuration.
 3 passed
 ```
 
+The same tests are executed by the GitHub Actions workflow before deployment.
+
 ---
 
 ## Project Scope
@@ -498,40 +509,5 @@ The primary areas demonstrated are:
 
 The project does not attempt to implement every Azure security service.
 
-Advanced monitoring, detection, response, governance, and automation are intentionally reserved for later projects in the portfolio.
-
+Advanced monitoring, detection, response, governance, and automation are outside the scope of this project.
 ---
-
-## Portfolio Progression
-
-This project is the second stage of a broader cloud security portfolio.
-
-```text
-PROJECT 1
-Azure Cloud Utility Platform
-        |
-        v
-Cloud Deployment Fundamentals
-        |
-        v
-PROJECT 2
-Azure Secure Network Platform
-        |
-        v
-Network + Identity Security
-        |
-        v
-PROJECT 3
-Monitoring + Security Operations
-        |
-        v
-Detection + Response
-        |
-        v
-PROJECT 4
-Automation + Advanced Cloud Security
-```
-
-The workload remains intentionally simple across the projects.
-
-The purpose is to demonstrate the evolution of the **cloud architecture, security controls, operational capabilities, and automation**, rather than creating four unrelated applications.

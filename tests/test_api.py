@@ -22,3 +22,60 @@ def test_homepage():
     assert response.status_code == 200
     assert "Azure Secure Network Platform" in response.text
     assert "secure Azure networking" in response.text
+
+def test_calculator_addition():
+    response = client.post(
+        "/api/v1/calculator",
+        json={
+            "operation": "add",
+            "a": 10,
+            "b": 5,
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["result"] == 15
+
+
+def test_calculator_division_by_zero():
+    response = client.post(
+        "/api/v1/calculator",
+        json={
+            "operation": "divide",
+            "a": 10,
+            "b": 0,
+        },
+    )
+
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Cannot divide by zero."
+
+
+def test_cidr_calculation():
+    response = client.post(
+        "/api/v1/cidr",
+        params={"cidr": "192.168.1.0/24"},
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["network"] == "192.168.1.0"
+    assert data["broadcast"] == "192.168.1.255"
+    assert data["usable_hosts"] == 254
+
+
+def test_unit_conversion():
+    response = client.post(
+        "/api/v1/convert",
+        params={
+            "category": "length",
+            "from_unit": "km",
+            "to_unit": "m",
+            "value": 2.5,
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["result"] == 2500
