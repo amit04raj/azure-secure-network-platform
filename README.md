@@ -42,12 +42,12 @@ The application workload remains intentionally simple. The focus of this project
                      VNet Integration
                              |
                              v
-                +------------------------+
-                | App Integration        |
-                | 10.20.1.0/26           |
+                +--------------------------+
+                | App Integration          |
+                | 10.20.1.0/26             |
                 | Microsoft.Web/serverFarms|
-                | Delegation + NSG       |
-                +-----------+------------+
+                | Delegation + NSG         |
+                +-----------+--------------+
                             |
                    Azure VNet 10.20.0.0/16
                             |
