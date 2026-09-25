@@ -302,13 +302,13 @@ Terraform provisions and manages:
 
 Terraform state and local variable files are excluded from source control.
 
-The final infrastructure validation produced:
+A previous successful infrastructure validation produced:
 
 ```text
 No changes. Your infrastructure matches the configuration.
 ```
 
-This confirms that the deployed Azure infrastructure matches the Terraform configuration.
+At the time of that validation, Terraform reported that the deployed Azure infrastructure matched the Terraform configuration.
 
 ---
 
@@ -353,7 +353,7 @@ These utility endpoints are part of the application workload and are manually ve
 Local automated test execution:
 
 ```text
-3 passed
+7 passed
 ```
 
 The same tests are executed by the GitHub Actions workflow before deployment.
@@ -482,7 +482,7 @@ No changes. Your infrastructure matches the configuration.
 ### Automated Tests
 
 ```text
-3 passed
+7 passed
 ```
 
 The same tests are executed by the GitHub Actions workflow before deployment.
